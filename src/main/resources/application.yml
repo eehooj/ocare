@@ -1,0 +1,58 @@
+server:
+  port: 8700
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/ocare
+    username: ocare
+    password: ocarePassword1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        ddl-auto: none
+        show-sql: true
+        use_sql_comments: true
+        format_sql: true
+        highlight_sql: true
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+        jdbc:
+          batch_size: 1000
+    database: mysql
+
+logging:
+  level:
+    jdbc:
+      sqlonly: OFF
+      sqltiming: INFO
+      audit: OFF
+      resultset: OFF
+      resultsettable: INFO
+      connection: OFF
+    sun:
+      rmi: INFO
+      net:
+        www:
+          protocol:
+            http: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+      hibernate:
+        type: TRACE
+        sql: TRACE
+    root: INFO
+    ai:
+      howfit: TRACE
