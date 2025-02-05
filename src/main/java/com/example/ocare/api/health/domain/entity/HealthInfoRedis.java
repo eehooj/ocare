@@ -15,6 +15,8 @@ public class HealthInfoRedis {
     @Id
     private String id;
 
+    private String recordKey;
+
     private Period period;
 
     private Distance distance;
@@ -54,6 +56,8 @@ public class HealthInfoRedis {
     public void setId(String uuid) {
         this.id = uuid;
     }
+
+    public void setRecordKey(String recordKey) { this.recordKey = recordKey; }
 
 }
 

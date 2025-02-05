@@ -6,6 +6,7 @@ import com.example.ocare.global.util.URIUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,4 +23,10 @@ public class HealthController {
         return ResponseEntity.ok(new ResultResponse<>(HttpStatus.CREATED));
     }
 
+    @GetMapping(URIUtil.HEALTH_INFO)
+    public ResponseEntity<ResultResponse<Object>> getHealthInfo() {
+        healthInfoService.downloadHealthInfo();
+
+        return ResponseEntity.ok(new ResultResponse<>(HttpStatus.OK));
+    }
 }

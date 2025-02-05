@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +50,7 @@ class HealthInfoServiceTest {
                     .period(HealthInfoRedis.Period.builder().from("2024-11-15 06:00:00").to("2024-11-15 06:10:00").build())
                     .distance(HealthInfoRedis.Distance.builder().unit("km").value(0.00519).build())
                     .calories(HealthInfoRedis.Calories.builder().unit("kcal").value(0.25).build())
+                    .recordKey("asdffggh" + i)
                     .build();
 
             dataList.add(data);
@@ -62,5 +62,13 @@ class HealthInfoServiceTest {
 
         verify(healthInfoRepository, times(1)).saveAll(anyList());
         verify(healthInfoRedisRepository, times(1)).deleteAll();
+    }
+
+    @Test
+    @DisplayName("Health info 데이터 조회")
+    void getHealthInfo() {
+        healthInfoService.downloadHealthInfo();
+
+        verify(healthInfoRepository, times(1)).getHealthInfoStats("{%Y-%m-%d}");
     }
 }

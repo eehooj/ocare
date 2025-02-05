@@ -24,6 +24,9 @@ public class HealthInfo extends EntityExtension {
     private Long healthInfoId;
 
     @Column(nullable = false)
+    private String recordKey;
+
+    @Column(nullable = false)
     private LocalDateTime startDt;
 
     @Column(nullable = false)
@@ -42,13 +45,14 @@ public class HealthInfo extends EntityExtension {
     private double steps;
 
     private HealthInfo(LocalDateTime startDt, LocalDateTime endDt,
-                      double distance, double calories, double steps) {
+                      double distance, double calories, double steps, String recordKey) {
         this.startDt = startDt;
         this.endDt = endDt;
         this.distance = distance;
         this.calories = calories;
         this.steps = steps;
         this.createDt = LocalDateTime.now();
+        this.recordKey = recordKey;
     }
 
     public static HealthInfo redisToEntity(HealthInfoRedis healthInfoRedis) {
@@ -57,6 +61,7 @@ public class HealthInfo extends EntityExtension {
                 DateUtil.parseDate(healthInfoRedis.getPeriod().getTo()),
                 healthInfoRedis.getDistance().getValue(),
                 healthInfoRedis.getCalories().getValue(),
-                healthInfoRedis.getSteps());
+                healthInfoRedis.getSteps(),
+                healthInfoRedis.getRecordKey());
     }
 }

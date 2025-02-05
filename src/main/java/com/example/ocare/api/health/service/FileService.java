@@ -10,12 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class FileService {
@@ -44,11 +46,12 @@ public class FileService {
         }
     }
 
-    private void parseData(JsonNode jsonNode) {
+    public void parseData(JsonNode jsonNode) {
+        String recordKey = objectMapper.convertValue(jsonNode.path("recordkey"), String.class);
         JsonNode data = jsonNode.path("data").path("entries");
 
         // 데이터를 Redis 엔티티 리스트로 변환
-        List<HealthInfoRedis> dataList = jsonToHealthInfoRedis(data);
+        List<HealthInfoRedis> dataList = jsonToHealthInfoRedis(data, recordKey);
 
         // Redis 저장
         healthInfoRedisRepository.saveAll(dataList);
@@ -57,7 +60,7 @@ public class FileService {
     /**
      * json -> healthIndoRedis
      */
-    private List<HealthInfoRedis> jsonToHealthInfoRedis(JsonNode entries) {
+    private List<HealthInfoRedis> jsonToHealthInfoRedis(JsonNode entries, String recordKey) {
         return StreamSupport.stream(entries.spliterator(), false)
                 .map(item -> {
                     HealthInfoRedis entity = null;
@@ -65,6 +68,7 @@ public class FileService {
                     try {
                         entity = objectMapper.treeToValue(item, HealthInfoRedis.class);
                         entity.setId(UUID.randomUUID().toString());
+                        entity.setRecordKey(recordKey);
                     } catch (Exception e) {
                         e.printStackTrace();
 

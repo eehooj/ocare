@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class EntityExtension {
 
-  protected LocalDateTime createDt;
+    protected LocalDateTime createDt;
 
 }

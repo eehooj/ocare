@@ -15,5 +15,16 @@ public enum FileExceptionType implements ExceptionTypes {
                     .message("파일 처리에 실패했습니다.")
                     .build();
         }
+    },
+
+    EXCEL_EXPORT_FAILED() {
+        @Override
+        public ErrorResponse getErrorResponse() {
+            return ErrorResponse.builder()
+                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .exceptionType(this)
+                    .message("엑셀 처리에 실패했습니다.")
+                    .build();
+        }
     }
 }
