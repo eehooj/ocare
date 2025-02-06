@@ -72,15 +72,15 @@ public class HealthInfoService {
     private void makeExcel(List<HealthInfoDto> dailyHealthInfoStats, List<HealthInfoDto> monthHealthInfoStats) {
         Map<String, List<HealthInfoDto>> sheetData = new HashMap<>();
         sheetData.put("Daily", dailyHealthInfoStats);
-        sheetData.put("Month", monthHealthInfoStats);
+        sheetData.put("Monthly", monthHealthInfoStats);
 
         Map<String, String[]> headers = new HashMap<>();
         headers.put("Daily", new String[]{"Daily", "Steps", "calories", "distance", "recordkey"});
-        headers.put("Month", new String[]{"Month", "Steps", "calories", "distance", "recordkey"});
+        headers.put("Monthly", new String[]{"Monthly", "Steps", "calories", "distance", "recordkey"});
 
         Map<String, String[]> fields = new HashMap<>();
         fields.put("Daily", new String[]{"date", "steps", "calories", "distance", "recordKey"});
-        fields.put("Month", new String[]{"date", "steps", "calories", "distance", "recordKey"});
+        fields.put("Monthly", new String[]{"date", "steps", "calories", "distance", "recordKey"});
 
         String fileName = "health_info_"
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
