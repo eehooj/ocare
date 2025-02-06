@@ -67,7 +67,7 @@ class HealthInfoServiceTest {
     @Test
     @DisplayName("Health info 데이터 조회")
     void getHealthInfo() {
-        healthInfoService.downloadHealthInfo();
+        healthInfoService.getHealthInfoStats();
 
         verify(healthInfoRepository, times(1)).getHealthInfoStats("{%Y-%m-%d}");
     }

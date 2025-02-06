@@ -37,6 +37,7 @@ public class FileService {
 
             try (InputStream inputStream = resource.getInputStream()) {
                 JsonNode jsonNode = objectMapper.readTree(inputStream);
+
                 parseData(jsonNode);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -67,8 +68,7 @@ public class FileService {
                     
                     try {
                         entity = objectMapper.treeToValue(item, HealthInfoRedis.class);
-                        entity.setId(UUID.randomUUID().toString());
-                        entity.setRecordKey(recordKey);
+                        entity.setIdAndRecordKey(UUID.randomUUID().toString(), recordKey);
                     } catch (Exception e) {
                         e.printStackTrace();
 

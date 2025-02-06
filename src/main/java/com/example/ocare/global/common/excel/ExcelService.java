@@ -20,6 +20,7 @@ public class ExcelService {
 
     public <T> void exportExcel(String fileName, Map<String, List<T>> sheetData,
                                 Map<String, String[]> headersMap, Map<String, String[]> fieldsMap) {
+        // 시트 생성
         try (SXSSFWorkbook workbook = new SXSSFWorkbook();) {
             for (Map.Entry<String, List<T>> entry : sheetData.entrySet()) {
                 String sheetName = entry.getKey();
@@ -30,6 +31,7 @@ public class ExcelService {
                 getSheet(workbook, sheetName, dataList, headers, fieldNames);
             }
 
+            // 출력
             File file = new File("src/main/resources/static/export/", fileName);
 
             try (FileOutputStream output = new FileOutputStream(file)) {
@@ -46,6 +48,7 @@ public class ExcelService {
                                      List<T> dataList, String[] headers, String[] fieldNames) {
         Sheet sheet = workbook.createSheet(sheetName);
 
+        // 스타일
         CellStyle headerStyle = workbook.createCellStyle();
 
         Font headerFont = workbook.createFont();
@@ -55,7 +58,7 @@ public class ExcelService {
         headerStyle.setBorderBottom(BorderStyle.THIN);
         headerStyle.setBorderLeft(BorderStyle.THIN);
         headerStyle.setBorderRight(BorderStyle.THIN);
-        headerStyle.setAlignment(HorizontalAlignment.CENTER); // 중앙 정렬
+        headerStyle.setAlignment(HorizontalAlignment.CENTER);
 
         CellStyle dataStyle = workbook.createCellStyle();
         dataStyle.setBorderTop(BorderStyle.THIN);

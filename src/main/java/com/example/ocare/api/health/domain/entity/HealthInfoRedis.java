@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@RedisHash("healthInfoRedis")
+@RedisHash("HEALTH_INFO_REDIS")
 public class HealthInfoRedis {
 
     @Id
@@ -53,11 +53,10 @@ public class HealthInfoRedis {
         private double value;
     }
 
-    public void setId(String uuid) {
+    public void setIdAndRecordKey(String uuid, String recordKey) {
         this.id = uuid;
+        this.recordKey = recordKey;
     }
-
-    public void setRecordKey(String recordKey) { this.recordKey = recordKey; }
 
 }
 

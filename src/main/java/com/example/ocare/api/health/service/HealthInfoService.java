@@ -5,6 +5,7 @@ import com.example.ocare.api.health.domain.entity.HealthInfoRedis;
 import com.example.ocare.api.health.domain.repository.HealthInfoRedisRepository;
 import com.example.ocare.api.health.domain.repository.HealthInfoRepository;
 import com.example.ocare.api.health.dto.HealthInfoDto;
+import com.example.ocare.api.health.dto.response.HealthInfoStatsResponse;
 import com.example.ocare.global.common.excel.ExcelService;
 import com.example.ocare.global.exception.CustomException;
 import com.example.ocare.global.exception.enumerate.DataExceptionType;
@@ -50,18 +51,26 @@ public class HealthInfoService {
         healthInfoRedisRepository.deleteAll();
     }
 
-    public void downloadHealthInfo() {
+    /**
+     * 건강 정보 조회
+     */
+    public HealthInfoStatsResponse getHealthInfoStats() {
         // DB 조회
         List<HealthInfoDto> dailyHealthInfoStats = healthInfoRepository.getHealthInfoStats("%Y-%m-%d");
         List<HealthInfoDto> monthHealthInfoStats = healthInfoRepository.getHealthInfoStats("%Y-%m");
 
         // 엑셀 만들기
         makeExcel(dailyHealthInfoStats, monthHealthInfoStats);
+
+        return HealthInfoStatsResponse
+                .builder()
+                .dailyList(dailyHealthInfoStats)
+                .monthList(monthHealthInfoStats)
+                .build();
     }
 
     private void makeExcel(List<HealthInfoDto> dailyHealthInfoStats, List<HealthInfoDto> monthHealthInfoStats) {
         Map<String, List<HealthInfoDto>> sheetData = new HashMap<>();
-
         sheetData.put("Daily", dailyHealthInfoStats);
         sheetData.put("Month", monthHealthInfoStats);
 
